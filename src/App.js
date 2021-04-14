@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useMemo } from "react";
+import Header from "./components/Header/Header";
+import MapPlaceholder from "./components/Map/MapPlaceholder";
 
 function App() {
+  const [locationInfo, setLocationInfo] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header locationInfo={locationInfo} setLocationInfo={setLocationInfo} />
+      {useMemo(
+        () => (
+          <MapPlaceholder
+            position={
+              locationInfo && [
+                locationInfo.location.lat,
+                locationInfo.location.lng,
+              ]
+            }
+          />
+        ),
+        [locationInfo]
+      )}
+    </>
   );
 }
 
